@@ -26,6 +26,7 @@ public class EmpJDBCDAO implements EmpDAO_interface {
 	public List<EmpVO> getAll() {
 		List<EmpVO> list = new ArrayList<EmpVO>();
 		EmpVO empVO = null;
+		EmpId empid = null;
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -39,7 +40,8 @@ public class EmpJDBCDAO implements EmpDAO_interface {
 
 			while (rs.next()) {
 				empVO = new EmpVO();
-				empVO.setEmpno(rs.getInt("empno"));
+				empid = new EmpId();
+				empid.setEmpNo(rs.getInt("empno"));
 				empVO.setEname(rs.getString("ename"));
 				empVO.setJob(rs.getString("job"));
 				empVO.setHiredate(rs.getDate("hiredate"));
@@ -90,7 +92,7 @@ public class EmpJDBCDAO implements EmpDAO_interface {
 
 		List<EmpVO> list = dao.getAll();
 		for (EmpVO aEmp : list) {
-			System.out.print(aEmp.getEmpno() + ",");
+			System.out.print(aEmp.getId().getEmpNo() + ",");
 			System.out.print(aEmp.getEname() + ",");
 			System.out.print(aEmp.getJob() + ",");
 			System.out.print(aEmp.getHiredate() + ",");
