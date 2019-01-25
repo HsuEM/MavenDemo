@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="core/main_layout">
+
+<head>
+<meta charset="UTF-8">
+<title>裕隆汽車模具保養管理系統</title>
+</head>
+
+<body>
+	<div class="function row d-block" layout:fragment="content">
+		<div
+			class="function-title d-flex align-items-center px-4 justify-content-between"
+			data-function-id="3-1" data-page-mode="查詢頁面"></div>
+
+		<div class="px-lg-5 px-3 pt-4 pb-2 function-content">
+			<!-- test -->
+			<!-- 
+			<div class="starter-template">
+				<div id="feedback"></div>
+			</div>
+			 -->
+			<form class="form mb-3 query-form" th:object="${accountObj}"
+				th:action="@{/account/sel}" method="post">
+				<div class="form-row">
+					<div class="form-group col-lg-6">
+						<label for="inputEmail4">公司</label> <select id="companySelect"
+							th:field="*{companySelect}" class="form-control">
+							<!-- <option value='' selected onchange="/chgCoSel">請選擇...</option> -->
+							<option value="">請選擇...</option>
+							<option th:each="ylCompany : ${listYlCompany}"
+								th:value="${ylCompany.companyId}"
+								th:text="${ylCompany.companyName}"></option>
+						</select>
+					</div>
+
+					<div class="form-group col-lg-6">
+						<label for="inputEmail4">群組</label> <select id="roleSelect"
+							th:field="*{roleSelect}" class="form-control">
+							<option value="">請選擇...</option>
+							<option th:each="ylRole : ${listYlRole}"
+								th:value="${ylRole.id.roleId}" th:text="${ylRole.roleName}">
+							</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-row">
+					<div class="form-group col-lg-4">
+						<label for="inputCity">帳號</label> <input type="text"
+							th:field="*{userId}" class="form-control" id="userId">
+					</div>
+					<div class="form-group col-lg-4">
+						<label for="inputState">姓名</label> <input type="text"
+							th:field="*{userName}" class="form-control" id="userName">
+					</div>
+					<div class="form-group col-lg-4">
+						<label for="inputEmail4">狀態</label> <select id="status"
+							th:field="*{status}" class="form-control">
+							<option value=' ' selected>請選擇...</option>
+							<option value='1'>1:正常</option>
+							<option value='2'>2:鎖定</option>
+						</select>
+					</div>
+				</div>
+				<div class="text-right">
+					<button type="submit" class="btn btn-info">確定</button>
+					<button type="button" class="btn btn-secondary"
+						th:onclick="'window.location.href = \'' + @{/account/sel} + '\''">清空</button>
+				</div>
+			</form>
+			<div class="mb-3 text-right">
+				<!--  
+							<button type="submit" class="btn btn-success mr-1 mb-3"
+								onclick=" window.location.href='3_1_add.html';">
+								<i class="fas fa-plus mr-2"></i>新增
+							</button>
+							-->
+				<a class="btn btn-success mr-1 mb-3" th:href="@{/account/goToAdd}">新增</a>
+				<button class="btn btn-danger mr-1 mb-3" type="button" id="delBtn"
+					neme="delBtn">
+					<i class="far fa-trash-alt mr-2"></i>刪除
+				</button>
+				<button class="btn btn-warning mr-1 mb-3" type="button"
+					id="unLockBtn" neme="unLockBtn">
+					<i class="fas fa-lock-open mr-2"></i>解鎖
+				</button>
+				<button type="submit" class="btn btn-dark mr-1 mb-3" id="lockBtn"
+					neme="lockBtn">
+					<i class="fas fa-ban mr-2"></i>停用
+				</button>
+				<div class="table-responsive  table-striped mb-2">
+					<table class="table  bg-white" id='resultTable' name='resultTable'>
+						<thead>
+							<tr>
+								<th scope="col" class="td-actions d-flex align-items-center">
+									<label class="list-item-checkbox check-all"> <input
+										type="checkbox" class="d-none" value=" ">
+										<div class="checkbox-display"></div>
+								</label> <span>編輯</span>
+								</th>
+								<th scope="col">公司代碼 <i class="fas fa-caret-down"></i></th>
+								<th scope="col">帳號 <i class="fas fa-caret-down"></i></th>
+								<th scope="col">姓名 <i class="fas fa-caret-down"></i></th>
+								<th scope="col">單位 <i class="fas fa-caret-down"></i></th>
+								<th scope="col">職稱 <i class="fas fa-caret-down"></i></th>
+								<th scope="col">電話 <i class="fas fa-caret-down"></i></th>
+								<th scope="col">email <i class="fas fa-caret-down"></i></th>
+								<th scope="col">啟用日期 <i class="fas fa-caret-down"></i></th>
+								<th scope="col">停用日期 <i class="fas fa-caret-down"></i></th>
+								<th scope="col">狀態 <i class="fas fa-caret-down"></i></th>
+
+							</tr>
+						</thead>
+						<tbody th:each="comp: ${depts}">
+							<tr>
+								<td class="td-actions d-flex align-items-center"><label
+									class="list-item-checkbox"> <input type="checkbox"
+										class="d-none" th:value="${comp.id}">
+										<div class="checkbox-display"></div>
+								</label> <span
+									class="btn btn-outline-secondary btn-sm rounded rounded-circle"
+									th:onclick="'window.location.href = \'' + @{/account/goToEdit/{id}/{userId}(id=${comp.companyId},userId=${comp.userId})}+ '\''"><i
+										class="far fa-edit"></i> </span></td>
+								<td th:text="${comp.companyId}"></td>
+								<td th:text="${comp.userId}"></td>
+								<td th:text="${comp.userName}"></td>
+								<td th:text="${comp.departmentName}"></td>
+								<td th:text="${comp.titleName}"></td>
+								<td th:text="${comp.telNo}"></td>
+								<td th:text="${comp.email}"></td>
+								<td th:text="${comp.activityStartDate}"></td>
+								<td th:text="${comp.activityEndDate}"></td>
+								<td th:text="${comp.status} == '1' ? 正常:停用"></td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+				<form id="onlySendForm" method="get"></form>
+
+				<div th:if="${cdepts}"
+					class="mx-auto row justify-content-between align-items-center">
+					<div class="col-xl-6 offset-xl-3">
+						<nav aria-label="Page navigation">
+							<ul class="pagination d-flex justify-content-center">
+								<li class="page-item"><a class="page-link" href="#"
+									aria-label="Previous"
+									th:href="@{/account/queryListPage(comId=${comId},roleId=${roleId},userId=${userId},userName=${userName},status=${status},page=${datas.isFirstPage()? 1:datas.getPage()})}">
+										<span aria-hidden="true">&laquo;</span> <span class="sr-only">Previous</span>
+								</a></li>
+								<li class="page-item"
+									th:each="i:${#numbers.sequence(1, datas.getPageCount())}"
+									th:class="${(datas.getPage()+1) eq i} ? 'page-item active' : 'page-item'">
+									<a class="page-link" href="page=1"
+									th:href="@{/account/queryListPage(comId=${comId},roleId=${roleId},userId=${userId},userName=${userName},status=${status},page=${i})}"
+									th:text="${i}">1</a>
+								</li>
+								<li class="page-item"><a class="page-link" href="#"
+									aria-label="Next"
+									th:href="@{/account/queryListPage(comId=${comId},roleId=${roleId},userId=${userId},userName=${userName},status=${status},page=${datas.isLastPage()? datas.getPage()+1:datas.getPage()+2})}">
+										<span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
+								</a></li>
+							</ul>
+						</nav>
+					</div>
+					<div class="col-xl-3 text-xl-right text-center">
+						<span class=""
+							th:utext="#{common.txt.from}+${datas.getPage()*5 + 1}+#{common.txt.to}+${datas.isLastPage()? datas.getNrOfElements():(datas.getPage()+1)*5}+#{common.txt.record}+'/'+#{common.txt.total}+${datas.getNrOfElements()}+#{common.txt.records}">顯示
+							1 到 5 筆 / 共 2468 筆</span>
+					</div>
+				</div>
+
+			</div>
+			<!-- Dialog-add -->
+			<div class="modal" id="common-modal-dialog" tabindex="-1"
+				role="dialog" aria-hidden="true" style="display: none;">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">測試標題</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p>測試內容</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">確定Add</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" layout:fragment="script">
+			$(document)
+					.ready(
+							function() {
+								// alert(0);
+								$("#companySelect").change(function(event) {
+									//alert(1);
+									chgCoSel();
+								});
+
+								$("#delBtn").click(function(event) {
+									alert(5);
+									del();
+								});
+
+								$("#unLockBtn").click(function(event) {
+									//alert(9);
+									unLock();
+								});
+
+								$("#lockBtn").click(function(event) {
+									// alert(11);
+									lock();
+								});
+
+								//alert(1);
+								$("#selectAccountBtn").click(function(event) {
+									// alert(21);
+									selectAccount();
+								});
+
+								var frmDel = $('#onlySendForm');
+								frmDel
+										.submit(function(e) {
+											e.preventDefault()
+											// alert("onlySendForm")
+
+											$
+													.ajax({
+														type : frmDel
+																.attr('method'),
+														url : frmDel
+																.attr('action'),
+														success : function(data) {
+															// alert("test 1");
+															if (data.status) {
+																let obj = data.models
+																let str = `刪除帳號：${obj} 成功！`;
+																showMsg(
+																		'success',
+																		data.message,
+																		str)
+																alert(str);
+																$("#yesBtn")
+																		.click(
+																				function() {
+																					//alert("...click yesBtn")
+																					if (data.redirect) {
+																						window.location.href = data.redirect //【TODO】:新增成功後是否要redirect?
+																					}
+																				})
+																//console.log(data);
+															} else {
+																// alert("2");
+																let str = data.msgContent
+																		.replace(
+																				/。/g,
+																				"<br/>")
+																//alert(str);
+																showMsg(
+																		'danger',
+																		data.message,
+																		str)
+															}
+														},
+														error : function(data) {
+															// alert("3");
+															//alert('An error occurred.');
+															let obj = data.models
+															let str = `刪除帳號：${obj} 失敗！`;
+															showMsg(
+																	'danger',
+																	'data.message',
+																	str);
+															//console.log(data);
+														},
+													});
+										});
+
+							});
+
+			function edit(comId) {
+				alert(comId);
+			}
+
+			function chgCoSel() {
+				var search = {}
+				// alert( $("#companySelect").val());
+				search["companyId"] = $("#companySelect").val();
+				//alert(2.8);
+				$
+						.ajax({
+							type : "POST",
+							contentType : "application/json",
+							url : baseurl + "account/chgCoSel",
+							data : JSON.stringify(search),
+							dataType : 'json',
+							cache : false,
+							timeout : 3000,
+							success : function(data) {
+								/*
+								var json = "<h4>Ajax Response</h4><pre>"
+										+ JSON.stringify(data, null, 4) + "</pre>";
+								$('#feedback').html(json);
+								 */
+								var roleSelectOptionHtml = "<option value='' selected>請選擇...</option>";
+								for (var i = 0; i < data.listYlDepartment.length; i++) {
+									roleSelectOptionHtml += '<option value="' + data.listYlRole[i].id.roleId + '">'
+											+ data.listYlRole[i].roleName
+											+ '</option>';
+								}
+								//alert(departmentSelectOptionHtml);
+								$('#roleSelect').html(roleSelectOptionHtml);
+
+								console.log("SUCCESS : ", data);
+							},
+							error : function(e) {
+								//alert(4);
+								console.log("ERROR : ", e);
+							}
+						});
+			}
+
+			function del() {
+				let array = []
+				let userIds = ""
+				let $chk = $("input:checked:not('#chkAll')");
+				let checkboxLength = $chk.length;
+				// alert(checkboxLength);
+
+				if (checkboxLength == 0) {
+					showMsg('info', '訊息', '請勾選欲刪除的帳號!')
+				} else {
+					// alert("111");
+					$chk.each(function(index) {
+						if (this.checked) {
+							array.push(this.value)
+						}
+					}) // end chk
+					userIds = array.join(",");
+					// alert("comId and userId=" + userIds);
+					$("#onlySendForm").attr("action",
+							baseurl + "account/del/" + userIds).submit();
+				}
+			}
+
+			function unLock() {
+				let array = []
+				let userIds = ""
+				let $chk = $("input:checked:not('#chkAll')");
+				let checkboxLength = $chk.length;
+				// alert(checkboxLength);
+
+				if (checkboxLength != 0) {
+					// alert("555");
+					$chk.each(function(index) {
+						if (this.checked) {
+							array.push(this.value)
+						}
+					}) // end chk
+					userIds = array.join(",")
+					// alert(userIds)
+					$("#onlySendForm").attr("action",
+							baseurl + "account/unLock/" + userIds).submit();
+				}
+			}
+
+			function lock() {
+				let array = []
+				let userIds = ""
+				let $chk = $("input:checked:not('#chkAll')");
+				let checkboxLength = $chk.length;
+				// alert(checkboxLength);
+
+				if (checkboxLength != 0) {
+					// alert("555");
+					$chk.each(function(index) {
+						if (this.checked) {
+							array.push(this.value)
+						}
+					}) // end chk
+					userIds = array.join(",")
+					// alert(userIds)
+					$("#onlySendForm").attr("action",
+							baseurl + "account/lock/" + userIds).submit();
+				}
+			}
+		</script>
+</body>
+
+</html>

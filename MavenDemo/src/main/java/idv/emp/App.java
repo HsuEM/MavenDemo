@@ -9,16 +9,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Controller
 @EnableAutoConfiguration
-public class App {
+@SpringBootApplication
+public class App  extends SpringBootServletInitializer{
 
-	@RequestMapping("/")
-	@ResponseBody
-	 String home(){
-		return "hello!!!";
-	}
-	
+//	@RequestMapping("/")
+//	@ResponseBody
+//	 String home(){
+//		return "hello!!!";
+//	}
+	 @Override
+	    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+	        return application.sources(App.class);
+	    }
+	 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		SpringApplication.run(App.class, args);

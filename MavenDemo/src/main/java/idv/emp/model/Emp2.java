@@ -1,4 +1,5 @@
 package idv.emp.model;
+import java.math.BigDecimal;
 import java.sql.Date;
 
 import javax.persistence.AttributeOverride;
@@ -10,56 +11,75 @@ import javax.persistence.Column;
 
 
 @Entity
-@Table(name = "emp2", schema = "dbo", catalog = "emp2")
-public class EmpVO implements java.io.Serializable{
+@Table(name = "emp2")
+public class Emp2 {
 	
 	private String ename;
+    
 	private String job;
+    
 	private Date hiredate;
-	private Double sal;
-	private Double comm;
+    
+	private BigDecimal sal;
+    
+	private BigDecimal comm;
+    
 	private Integer deptno;
+    
+    @EmbeddedId
 	private EmpId id;
 	
-	@EmbeddedId
-
-	@AttributeOverrides({
-		@AttributeOverride(name = "id", column = @Column(name = "emp_no", nullable = false)) })
+	public Emp2() {
+	}
 
 	public EmpId getId() {
 		return this.id;
 	}
 
+	public void setId(EmpId id) {
+		this.id = id;
+	}
+	
+    @Column(name = "ename")
 	public String getEname() {
 		return ename;
 	}
 	public void setEname(String ename) {
 		this.ename = ename;
 	}
+	
+    @Column(name = "job")
 	public String getJob() {
 		return job;
 	}
 	public void setJob(String job) {
 		this.job = job;
 	}
+	
+    @Column(name = "hiredate")
 	public Date getHiredate() {
 		return hiredate;
 	}
 	public void setHiredate(Date hiredate) {
 		this.hiredate = hiredate;
 	}
-	public Double getSal() {
+	
+    @Column(name = "sal")
+	public BigDecimal getSal() {
 		return sal;
 	}
-	public void setSal(Double sal) {
+	public void setSal(BigDecimal sal) {
 		this.sal = sal;
 	}
-	public Double getComm() {
+	
+    @Column(name = "comm")
+	public BigDecimal getComm() {
 		return comm;
 	}
-	public void setComm(Double comm) {
+	public void setComm(BigDecimal comm) {
 		this.comm = comm;
 	}
+    @Column(name = "deptno")
 	public Integer getDeptno() {
 		return deptno;
 	}

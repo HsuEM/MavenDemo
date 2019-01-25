@@ -1,6 +1,8 @@
 package idv.emp.model;
 // Generated Nov 18, 2018 8:46:17 PM by Hibernate Tools 5.2.11.Final
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -13,23 +15,22 @@ public class EmpId implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private int empNo;
+	private BigDecimal empno;
 
 	public EmpId() {
 	}
 
-	public EmpId(int empNo) {
-		this.empNo = empNo;
+	public EmpId(BigDecimal empno) {
+		this.empno = empno;
 	}
 
-	@Column(name = "emp_no", nullable = false)
-	public int getEmpNo() {
-		return this.empNo;
+	@Column(name = "empno", nullable = false)
+	public BigDecimal getEmpno() {
+		return this.empno;
 	}
 
-	public void setEmpNo(int empNo) {
-		this.empNo = empNo;
+	public void setEmpno(BigDecimal empno) {
+		this.empno = empno;
 	}
 
 	

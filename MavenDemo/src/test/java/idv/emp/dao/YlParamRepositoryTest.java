@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
-import idv.emp.model.EmpVO;
+import idv.emp.model.Emp2;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest
