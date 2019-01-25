@@ -24,11 +24,13 @@ public class EmpController {
 	public String goToMaint(Model model) {
 		List<Emp2> list= empVODao.findAll();
 		return "emp/NewFile";
+
+
 	}
 	
-	@RequestMapping(value = { "/goToMaint2" })
-	public String goToMaint2(Model model) {
-		List<Emp2> list= empVODao.findAll();
-		return "emp/index";
-	}
+//	@RequestMapping(value = { "/goToMaint2" })
+//	public String goToMaint2(Model model) {
+//		List<Emp2> list= empVODao.findAll();
+//		return "emp/index";
+//	}
 }
