@@ -19,7 +19,7 @@ import idv.emp.model.Emp2;
 public class YlParamRepositoryTest {
 	
 //	@Autowired
-//	private EmpVODao empVODao;
+//	private EmpVODao empVODao;DEEEE
 //
 //	@Ignore
 //	@Test
